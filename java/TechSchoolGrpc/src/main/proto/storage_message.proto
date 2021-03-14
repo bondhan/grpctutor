@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package com.github.bondhan.grpctutor;
+
+option go_package = ".;pb";
+
+import "memory_message.proto";
+option java_package = "com.github.bondhan.grpctutor";
+option java_multiple_files = true;
+
+message Storage {
+  enum Driver {
+    UNKNOWN = 0;
+    HDD = 1;
+    SSD = 2;
+  }
+
+  Driver driver = 1;
+  Memory memory = 2;
+}

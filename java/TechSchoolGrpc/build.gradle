@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    id "com.google.protobuf" version "0.8.15"
+}
+
+sourceCompatibility = 1.8
+
+group 'com.tutorial'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+    // https://mvnrepository.com/artifact/com.google.protobuf/protobuf-gradle-plugin
+    runtimeOnly group: 'com.google.protobuf', name: 'protobuf-gradle-plugin', version: '0.8.15'
+
+    // https://mvnrepository.com/artifact/io.grpc/grpc-all
+    implementation group: 'io.grpc', name: 'grpc-all', version: '1.36.0'
+}
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.15.6'
+    }
+
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.36.0'
+        }
+    }
+
+    generateProtoTasks {
+        all()*.plugins{
+            grpc{}
+        }
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'build/generated/source/proto/main/grpc'
+            srcDirs 'build/generated/source/proto/main/java'
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
